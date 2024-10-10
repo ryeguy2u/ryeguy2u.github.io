@@ -57,7 +57,7 @@ $(function () {
     // Your wall choices are: 'top' 'left' 'right' and 'bottom'
     // example usage: createCannon(side, position, delay, width, height)
 
-
+//Test
 
     createPlatform(200,0, 25,580)
     createPlatform(220,555, 300,25)
