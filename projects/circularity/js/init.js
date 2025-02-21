@@ -60,7 +60,7 @@ var init = function (window) {
                     physikz.updatePosition(circles[i]);
                     game.checkCirclePosition(circles[i]);
                 };
-            
+        }  
         
         /* 
         This Function should check the position of a circle that is passed to the 
@@ -87,8 +87,8 @@ var init = function (window) {
 
             // YOUR TODO 6 CODE ENDS HERE //////////////////////////
         
-        };
-        }
+        
+        
         
         /////////////////////////////////////////////////////////////
         // --- NO CODE BELOW HERE  --- DO NOT REMOVE THIS CODE --- //
@@ -104,6 +104,7 @@ var init = function (window) {
         
         app.addUpdateable(window.opspark.game);
     }
+}
 // DON'T REMOVE THIS CODE //////////////////////////////////////////////////////
 if((typeof process !== 'undefined') &&
     (typeof process.versions.node !== 'undefined')) {
