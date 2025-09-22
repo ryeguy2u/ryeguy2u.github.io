@@ -10,9 +10,16 @@ function runProgram(){
   // Constant Variables
   var FRAME_RATE = 60;
   var FRAMES_PER_SECOND_INTERVAL = 1000 / FRAME_RATE;
+
   var walker = {
     x : 0,
     y : 0,
+    speedX : 0,
+    speedY : 0,
+  }
+  var walker2 = {
+    x : 100,
+    y : 100,
     speedX : 0,
     speedY : 0,
   }
@@ -22,6 +29,10 @@ function runProgram(){
   UP: 38,
   RIGHT: 39,
   DOWN: 40,
+  W: 87,
+  A: 65,
+  S: 83,
+  D: 68,
 };
   // Game Item Objects
 
@@ -47,6 +58,7 @@ function runProgram(){
   */
   function newFrame() {
     repositionGameItem();
+    playerCollision();
     wallCollision();
     redrawGameItem();
   }
@@ -74,7 +86,25 @@ function runProgram(){
    if (event.which === KEY.DOWN) {
   console.log("down pressed");
   walker.speedY = 5  
-  }}
+  }
+  //Walker 2 Code//
+      if (event.which === KEY.D) {
+  console.log("d pressed");
+  walker2.speedX = 5
+  }
+   if (event.which === KEY.A) {
+  console.log("a pressed");
+  walker2.speedX = -5  
+}
+   if (event.which === KEY.W) {
+  console.log("w pressed");
+  walker2.speedY = -5  
+}
+   if (event.which === KEY.S) {
+  console.log("s pressed");
+  walker2.speedY = 5  
+  }
+}
   function handleKeyUp(event) {
     if (event.which === KEY.UP) {
       console.log("up released");
@@ -92,6 +122,23 @@ function runProgram(){
   
       walker.speedX= 0
     }
+    //Walker 2 Code//
+    if (event.which === KEY.W) {
+      console.log("w released");
+      walker2.speedY = 0
+
+    }
+    if (event.which === KEY.S) {
+      walker2.speedY = 0
+    }
+  if (event.which === KEY.A) {
+    
+      walker2.speedX = 0
+    }
+    if (event.which === KEY.D) {
+  
+      walker2.speedX= 0
+    }
   }
    
 
@@ -102,11 +149,15 @@ function runProgram(){
   function repositionGameItem(){
     walker.x = walker.x + walker.speedX
     walker.y = walker.y + walker.speedY
+    walker2.x = walker2.x + walker2.speedX
+    walker2.y = walker2.y + walker2.speedY
     console.log("Walker position:", walker.x, walker.y);
   }
   function redrawGameItem(){
     $("#walker").css("left", walker.x);
     $("#walker").css("top", walker.y);
+    $("#walker2").css("left", walker2.x);
+    $("#walker2").css("top", walker2.y);
    }
   function endGame() {
     // stop the interval timer
@@ -115,12 +166,13 @@ function runProgram(){
     // turn off event handlers
     $(document).off();
   }
+  
   function wallCollision(){
-    if (walker.x > $("#board").width() - 50){
+    if (walker.x > $("#board").width() - $("#walker").width()){
       walker.x -= walker.speedX
     }
 
-    if (walker.y > $("#board").height() - 50){
+    if (walker.y > $("#board").height() - $("#walker").height()){
       walker.y -= walker.speedY
     }
     if (walker.x < 0){
@@ -129,5 +181,41 @@ function runProgram(){
     if(walker.y < 0){
       walker.y -= walker.speedY
     }
+     if (walker2.x > $("#board").width() - $("#walker2").width()){
+      walker2.x -= walker2.speedX
+    }
+
+    if (walker2.y > $("#board").height() - $("#walker2").width()){
+      walker2.y -= walker2.speedY
+    }
+    if (walker2.x < 0){
+      walker2.x -= walker2.speedX
+    }
+    if(walker2.y < 0){
+      walker2.y -= walker2.speedY
+    }
+  }
+  //atrocious collison code//
+  function playerCollision(){
+    if (walker.x + 50 > walker2.x && walker.y + 50 > walker2.y && walker.x < walker2.x + 50 && walker.y < walker2.y + 50){
+      if(Math.abs(walker.speedX) <= Math.abs(walker2.speedX) && Math.abs(walker.speedY) <= Math.abs(walker2.speedY)){
+      walker.x = $("#walker").css("width", 0);
+      walker.x = $("#walker").css("height", 0);
+      $("#walker").css("width", walker.width);
+      }
+      else if (Math.abs(walker.speedX) === Math.abs(walker2.speedX) || Math.abs(walker.speedY) === Math.abs(walker2.speedY)){
+        var choose = Math.random()
+        if (choose > 0.5){ 
+          walker.x = $("#walker").css("width", 0);
+          walker.x = $("#walker").css("height", 0);
+        }
+        else{
+          walker2.x = $("#walker2").css("width", 0);
+          walker2.x = $("#walker2").css("height", 0);
+        }
+    }
+
+    }
+  
   }
 }
